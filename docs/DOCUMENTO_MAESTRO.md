@@ -2,119 +2,199 @@
 
 ## Documento Maestro del Proyecto
 
-**Versión:** 0.1
-**Estado:** Planificación / Prototipo
-**Tipo de proyecto:** Software empresarial + página web + sistema de gestión
-**Empresa:** Ficticia
-**Ubicación ficticia:** Armenia, Quindío, Colombia
+**Versión:** 2.0
+**Estado:** Desarrollo de producto
+**Tipo:** Software empresarial + tienda web + sistema de gestión + IA
+**Empresa de demostración:** FRIZZA
+**Ubicación:** Armenia, Quindío, Colombia
 **Slogan:** “Sabor que se siente frío.”
 
 ---
 
-# 1. Descripción general
+# 1. Visión del proyecto
 
-FRIZZA es una empresa ficticia dedicada a la venta de granizados, cócteles y bebidas refrescantes.
+FRIZZA es un proyecto de software empresarial desarrollado inicialmente alrededor de un negocio ficticio de granizados, cócteles y bebidas.
 
-El proyecto consiste en desarrollar un sistema de software completo para gestionar el negocio y, al mismo tiempo, una página web para que los clientes puedan conocer los productos y realizar pedidos.
+El objetivo es construir un **producto funcional y comercial**, no solamente una página web de demostración.
 
-El objetivo no es crear solamente una página web bonita. El objetivo es construir un **software funcional para una empresa**, utilizando tecnologías modernas y agregando herramientas de inteligencia artificial.
+El sistema debe permitir que un negocio pueda:
 
-FRIZZA será utilizado como proyecto de aprendizaje para adquirir experiencia en desarrollo de software, desarrollo web, bases de datos, APIs, autenticación, inteligencia artificial, despliegue y posteriormente comercialización de software.
-
----
-
-# 2. Objetivos
-
-## Objetivo principal
-
-Construir un sistema web completo para administrar las operaciones de FRIZZA y permitir a los clientes consultar productos y realizar pedidos.
-
-## Objetivos secundarios
-
-* Crear una página web profesional.
-* Crear un catálogo de productos.
-* Implementar un carrito de compras.
-* Registrar pedidos.
-* Crear un sistema de usuarios.
-* Crear un panel administrativo.
-* Gestionar productos.
-* Gestionar inventario.
+* Mostrar sus productos en Internet.
+* Recibir pedidos.
+* Administrar productos.
+* Controlar inventario.
 * Gestionar clientes.
-* Registrar ventas.
-* Mostrar estadísticas.
-* Incorporar inteligencia artificial.
-* Crear una API backend.
-* Utilizar una base de datos.
-* Desplegar el sistema en Internet.
-* Mantener el proyecto organizado y escalable.
+* Gestionar ventas.
+* Administrar empleados.
+* Consultar estadísticas.
+* Utilizar herramientas de inteligencia artificial.
+
+FRIZZA será inicialmente el negocio utilizado para desarrollar y demostrar el sistema.
+
+La arquitectura deberá permitir que posteriormente el software pueda convertirse en un **SaaS multi-negocio**, donde diferentes empresas utilicen la misma plataforma sin acceder a los datos de otros negocios.
 
 ---
 
-# 3. Usuarios del sistema
+# 2. Objetivo principal
 
-FRIZZA tendrá inicialmente tres tipos de usuarios.
+Construir una aplicación web empresarial funcional que pueda ser presentada como un producto comercial real.
 
-## Cliente
+El sistema debe tener dos experiencias principales:
 
-Puede:
+### Cliente
 
-* Ver la página principal.
-* Ver el catálogo.
-* Filtrar productos.
-* Ver información de productos.
+Una página web pública donde pueda:
+
+* Conocer el negocio.
+* Ver el menú.
+* Consultar productos.
+* Agregar productos al carrito.
+* Realizar pedidos.
+* Seleccionar método de entrega.
+* Seleccionar método de pago.
+* Consultar información del pedido.
+
+### Negocio
+
+Un panel privado donde pueda:
+
+* Administrar productos.
+* Administrar categorías.
+* Gestionar pedidos.
+* Gestionar clientes.
+* Controlar inventario.
+* Registrar ventas.
+* Consultar estadísticas.
+* Administrar usuarios.
+* Utilizar FRIZZA AI.
+* Configurar el negocio.
+
+---
+
+# 3. Visión comercial
+
+El proyecto se desarrollará inicialmente como una solución para FRIZZA.
+
+Sin embargo, las decisiones importantes de arquitectura deberán evitar que el sistema quede completamente limitado a una sola empresa.
+
+La evolución prevista será:
+
+```text
+FRIZZA
+   ↓
+Producto funcional
+   ↓
+Producto comercial
+   ↓
+Preparación multi-negocio
+   ↓
+SaaS
+```
+
+La primera versión no necesita implementar completamente el sistema multi-negocio.
+
+Debe estar **preparada para evolucionar hacia él**.
+
+---
+
+# 4. Usuarios
+
+## 4.1 Cliente
+
+El cliente podrá utilizar la tienda sin necesidad de crear una cuenta inicialmente.
+
+Podrá:
+
+* Ver productos.
+* Filtrar categorías.
+* Consultar detalles.
 * Agregar productos al carrito.
 * Modificar cantidades.
 * Realizar pedidos.
-* Consultar información básica del negocio.
+* Registrar sus datos para el pedido.
+* Consultar el estado de su pedido.
 
-## Empleado
+Posteriormente podrá implementarse una cuenta de cliente.
 
-Puede:
+---
+
+## 4.2 Empleado
+
+El empleado tendrá acceso a las funciones necesarias para la operación diaria.
+
+Podrá:
 
 * Iniciar sesión.
-* Ver pedidos.
-* Actualizar estados de pedidos.
+* Consultar pedidos.
+* Cambiar estados de pedidos según sus permisos.
 * Consultar productos.
 * Consultar inventario.
 * Registrar ventas.
+* Consultar información necesaria para la operación.
 
-## Administrador
+---
 
-Tiene acceso completo al sistema.
+## 4.3 Administrador del negocio
 
-Puede:
+Tendrá acceso completo al negocio.
 
-* Gestionar usuarios.
+Podrá:
+
 * Gestionar productos.
 * Gestionar categorías.
 * Gestionar inventario.
 * Gestionar pedidos.
 * Gestionar clientes.
-* Consultar ventas.
-* Ver estadísticas.
-* Utilizar las herramientas de IA.
-* Configurar diferentes aspectos del sistema.
+* Gestionar ventas.
+* Gestionar empleados.
+* Consultar estadísticas.
+* Configurar el negocio.
+* Utilizar FRIZZA AI.
 
 ---
 
-# 4. Página pública
+## 4.4 Futuro administrador de plataforma
 
-La página pública será la parte que verá cualquier visitante.
+Cuando el sistema se convierta en SaaS existirá un nivel superior encargado de administrar la plataforma completa.
+
+Podrá:
+
+* Crear negocios.
+* Gestionar cuentas de negocios.
+* Gestionar planes.
+* Gestionar suscripciones.
+* Administrar la plataforma.
+* Consultar información técnica y comercial necesaria.
+
+Este rol no será necesario para la primera versión de FRIZZA.
+
+---
+
+# 5. Página pública
+
+La página pública debe sentirse como una página comercial real.
+
+Debe funcionar correctamente en:
+
+* Computador.
+* Tablet.
+* Teléfono.
 
 ## Inicio
 
-Debe mostrar:
+Debe incluir:
 
-* Logo FRIZZA.
-* Menú de navegación.
-* Imagen principal.
+* Logo.
+* Navegación.
+* Hero principal.
 * Slogan.
-* Botón para ver el menú.
 * Productos destacados.
+* Categorías.
 * Beneficios.
-* Información de FRIZZA.
-* Contacto.
+* Información del negocio.
+* Botones de acción.
 * Redes sociales.
+* Información de contacto.
 
 ## Menú
 
@@ -122,9 +202,9 @@ Debe permitir:
 
 * Ver todos los productos.
 * Filtrar por categoría.
-* Ver precio.
-* Ver imagen.
-* Ver descripción.
+* Consultar precios.
+* Consultar imágenes.
+* Consultar descripciones.
 * Agregar productos al carrito.
 
 Categorías iniciales:
@@ -137,97 +217,9 @@ Categorías iniciales:
 
 ---
 
-# 5. Carrito
+# 6. Catálogo de productos
 
-El carrito debe permitir:
-
-* Agregar productos.
-* Eliminar productos.
-* Aumentar cantidades.
-* Disminuir cantidades.
-* Calcular subtotal.
-* Calcular domicilio cuando corresponda.
-* Calcular total.
-* Vaciar carrito.
-
-Ejemplo:
-
-Producto:
-Granizado de Fresa
-
-Precio:
-$12.000
-
-Cantidad:
-2
-
-Subtotal:
-$24.000
-
----
-
-# 6. Sistema de pedidos
-
-El cliente podrá crear un pedido proporcionando información básica.
-
-Datos iniciales:
-
-* Nombre.
-* Teléfono.
-* Dirección.
-* Productos.
-* Cantidades.
-* Total.
-* Método de pago.
-
-Estados posibles:
-
-* Pendiente.
-* Confirmado.
-* En preparación.
-* Listo.
-* Entregado.
-* Cancelado.
-
-El administrador y los empleados podrán actualizar el estado del pedido.
-
----
-
-# 7. Panel administrativo
-
-El panel administrativo será una de las partes principales del proyecto.
-
-## Dashboard
-
-Debe mostrar información como:
-
-* Ventas del día.
-* Ventas de la semana.
-* Ventas del mes.
-* Número de pedidos.
-* Productos vendidos.
-* Clientes registrados.
-* Productos con inventario bajo.
-
-También podrá incluir gráficos.
-
----
-
-# 8. Gestión de productos
-
-El administrador podrá:
-
-* Crear productos.
-* Editar productos.
-* Eliminar productos.
-* Activar/desactivar productos.
-* Subir imágenes.
-* Cambiar precios.
-* Cambiar categorías.
-* Cambiar descripción.
-* Modificar inventario.
-
-Cada producto tendrá inicialmente:
+Cada producto deberá poder manejar:
 
 * ID.
 * Nombre.
@@ -238,113 +230,341 @@ Cada producto tendrá inicialmente:
 * Stock.
 * Estado.
 * Fecha de creación.
+* Fecha de actualización.
+
+Estados:
+
+```text
+ACTIVO
+INACTIVO
+```
+
+Los productos inactivos no deberán aparecer como disponibles para realizar pedidos.
+
+Posteriormente podrán incorporarse:
+
+* Tamaños.
+* Sabores.
+* Extras.
+* Toppings.
+* Variaciones de precio.
+* Productos compuestos.
 
 ---
 
-# 9. Inventario
+# 7. Carrito
 
-El sistema deberá controlar el inventario de los productos.
+El carrito permitirá:
+
+* Agregar productos.
+* Eliminar productos.
+* Aumentar cantidades.
+* Disminuir cantidades.
+* Vaciar carrito.
+* Calcular subtotal.
+* Calcular domicilio.
+* Calcular descuentos cuando corresponda.
+* Calcular total.
 
 Ejemplo:
 
-| Producto        | Stock | Estado        |
-| --------------- | ----: | ------------- |
-| Granizado Fresa |    32 | Disponible    |
-| Granizado Mango |    18 | Disponible    |
-| Frizza Blue     |     7 | Stock bajo    |
-| Mojito Tropical |     2 | Stock crítico |
+```text
+Granizado de Fresa
+$12.000 x 2
 
-El sistema podrá generar alertas cuando un producto tenga poco inventario.
+Subtotal: $24.000
+Domicilio: $5.000
+
+TOTAL: $29.000
+```
+
+Los cálculos importantes deberán validarse también en el backend para evitar manipulación desde el navegador.
 
 ---
 
-# 10. Clientes
+# 8. Checkout y pedidos
 
-El sistema podrá almacenar:
+El cliente podrá realizar un pedido proporcionando:
+
+* Nombre.
+* Teléfono.
+* Dirección cuando corresponda.
+* Productos.
+* Cantidades.
+* Método de entrega.
+* Método de pago.
+
+Métodos de entrega iniciales:
+
+```text
+DOMICILIO
+RECOGER_EN_LOCAL
+```
+
+Estados del pedido:
+
+```text
+PENDIENTE
+CONFIRMADO
+EN_PREPARACION
+LISTO
+ENTREGADO
+CANCELADO
+```
+
+El sistema deberá controlar las transiciones permitidas entre estados.
+
+---
+
+# 9. Pagos
+
+El sistema deberá separar:
+
+**Estado del pedido**
+
+de:
+
+**Estado del pago**
+
+Ejemplo:
+
+```text
+Pedido:
+EN_PREPARACION
+
+Pago:
+PAGADO
+```
+
+Estados iniciales de pago:
+
+```text
+PENDIENTE
+PAGADO
+RECHAZADO
+REEMBOLSADO
+```
+
+Inicialmente podrá existir pago contra entrega o en el establecimiento.
+
+Posteriormente se podrá integrar una pasarela de pago.
+
+La integración de pagos en línea se realizará únicamente cuando el sistema básico de pedidos esté estable.
+
+---
+
+# 10. Panel administrativo
+
+El panel administrativo será una de las partes principales del producto.
+
+Debe verse y funcionar como un software empresarial real.
+
+## Dashboard
+
+Debe mostrar información como:
+
+* Ventas del día.
+* Ventas de la semana.
+* Ventas del mes.
+* Pedidos pendientes.
+* Pedidos completados.
+* Ticket promedio.
+* Productos vendidos.
+* Clientes.
+* Productos con stock bajo.
+
+También podrá incluir:
+
+* Gráficos.
+* Comparaciones por periodos.
+* Productos más vendidos.
+* Métodos de pago.
+* Horarios con mayor actividad.
+
+Las estadísticas deberán calcularse a partir de datos reales de la base de datos.
+
+---
+
+# 11. Gestión de productos
+
+El administrador podrá:
+
+* Crear productos.
+* Editar productos.
+* Eliminar productos.
+* Activar productos.
+* Desactivar productos.
+* Subir imágenes.
+* Modificar precios.
+* Modificar categorías.
+* Modificar descripciones.
+* Gestionar stock.
+
+El sistema deberá validar la información antes de guardarla.
+
+---
+
+# 12. Inventario
+
+La primera versión utilizará un modelo sencillo de inventario basado en productos.
+
+El sistema deberá:
+
+* Mostrar stock.
+* Reducir stock según las reglas definidas.
+* Detectar stock bajo.
+* Detectar stock crítico.
+* Impedir pedidos cuando un producto no esté disponible.
+* Mostrar alertas al administrador.
+
+Ejemplo:
+
+```text
+Producto              Stock       Estado
+
+Granizado Fresa       32          DISPONIBLE
+Granizado Mango       18          DISPONIBLE
+Frizza Blue            7          STOCK_BAJO
+Mojito Tropical        2          STOCK_CRITICO
+```
+
+En una versión posterior se podrá implementar inventario por ingredientes.
+
+Ejemplo:
+
+```text
+Fresa
+Mango
+Hielo
+Azúcar
+Ron
+Vodka
+Jarabes
+```
+
+Esto permitirá controlar el inventario real utilizado en la preparación de bebidas.
+
+---
+
+# 13. Clientes
+
+El sistema podrá almacenar información de clientes asociada a sus pedidos.
+
+Datos posibles:
 
 * ID.
 * Nombre.
 * Teléfono.
-* Correo electrónico.
+* Correo.
 * Dirección.
 * Fecha de registro.
 * Historial de pedidos.
 
-Posteriormente se podrán crear estadísticas de clientes.
+La primera versión permitirá realizar pedidos sin cuenta.
+
+Posteriormente se podrá implementar:
+
+* Registro.
+* Inicio de sesión.
+* Historial personal.
+* Direcciones guardadas.
+* Perfil de cliente.
 
 ---
 
-# 11. Ventas
+# 14. Ventas
 
-El sistema debe registrar las ventas realizadas.
+Las ventas representarán las operaciones comerciales realizadas por el negocio.
 
-Información:
+Una venta podrá estar relacionada con un pedido, pero el sistema también deberá permitir registrar ventas realizadas directamente en el establecimiento.
 
-* ID de venta.
+Esto permitirá manejar:
+
+```text
+Venta desde la página web
+Venta desde el establecimiento
+```
+
+La información podrá incluir:
+
+* ID.
 * Fecha.
 * Productos.
 * Cantidades.
-* Cliente.
+* Cliente cuando exista.
 * Total.
 * Método de pago.
 * Usuario que registró la venta.
 
-Esto permitirá generar estadísticas.
-
 ---
 
-# 12. Inteligencia artificial
+# 15. FRIZZA AI
 
-FRIZZA tendrá un módulo llamado:
+FRIZZA AI será el asistente inteligente del sistema.
 
-## 🤖 FRIZZA AI
+Su función será ayudar al administrador a comprender la información del negocio y generar contenido útil.
 
-La IA será utilizada como asistente para el administrador.
+## Análisis de ventas
 
-Funciones previstas:
+Ejemplos:
 
-### Análisis de ventas
+```text
+¿Cuánto vendimos este mes?
 
-Ejemplo:
+¿Qué productos se vendieron más?
 
-“Analiza las ventas de los últimos 30 días.”
+¿Cuál fue nuestro día con mayores ventas?
 
-La IA podrá utilizar los datos disponibles para generar un resumen.
+¿Cómo fueron las ventas de los últimos 30 días?
+```
 
-### Recomendaciones
+## Inventario
 
-Ejemplo:
+Ejemplos:
 
-“¿Qué productos tuvieron mayor cantidad de ventas?”
+```text
+¿Qué productos tienen stock bajo?
 
-### Inventario
+¿Qué productos necesitan atención?
 
-Ejemplo:
+¿Qué productos se están agotando?
+```
 
-“¿Qué productos necesitan atención por bajo inventario?”
+## Marketing
 
-### Promociones
-
-Ejemplo:
-
-“Genera tres ideas de promociones utilizando los productos disponibles.”
-
-### Marketing
-
-La IA podrá ayudar a generar:
+Podrá generar:
 
 * Publicaciones para Instagram.
-* Descripciones de productos.
-* Textos promocionales.
+* Descripciones.
+* Promociones.
 * Ideas de campañas.
+* Textos publicitarios.
 
-La IA no deberá inventar datos de ventas. Cuando se utilicen estadísticas reales, deberá recibir información proveniente de la base de datos.
+## Regla fundamental
+
+La IA no deberá inventar estadísticas.
+
+El flujo será:
+
+```text
+BASE DE DATOS
+      ↓
+BACKEND
+      ↓
+CÁLCULO DE DATOS
+      ↓
+FRIZZA AI
+      ↓
+RESPUESTA
+```
+
+La IA interpretará información real proporcionada por el sistema.
 
 ---
 
-# 13. Arquitectura tecnológica
+# 16. Arquitectura
 
-La arquitectura inicial será:
+Arquitectura inicial:
 
 ```text
 CLIENTE
@@ -357,281 +577,414 @@ BACKEND
    ↓
 BASE DE DATOS
    ↓
-SERVICIOS DE IA
+SERVICIOS EXTERNOS
 ```
 
-## Frontend
+Servicios externos podrán incluir:
 
-Tecnologías iniciales:
+* IA.
+* Almacenamiento de imágenes.
+* Pagos.
+* Correo.
+* Notificaciones.
 
-* HTML5
-* CSS3
-* JavaScript
-
-Posteriormente se podrá evaluar:
-
-* React
-* Next.js
-
-No se utilizarán tecnologías avanzadas antes de comprender su función.
-
-## Backend
-
-Tecnologías previstas:
-
-* Node.js
-* Express.js
-
-El backend será responsable de:
-
-* Usuarios.
-* Autenticación.
-* Productos.
-* Pedidos.
-* Clientes.
-* Inventario.
-* Ventas.
-* Comunicación con servicios externos.
-
-## Base de datos
-
-Se planea utilizar:
-
-**MongoDB**
-
-Posiblemente mediante:
-
-**MongoDB Atlas**
+El backend será el encargado de controlar la comunicación con estos servicios.
 
 ---
 
-# 14. API
+# 17. Tecnologías
+
+## Frontend inicial
+
+* HTML5.
+* CSS3.
+* JavaScript.
+
+Se priorizará comprender correctamente estas tecnologías antes de incorporar frameworks.
+
+## Backend
+
+* Node.js.
+* Express.js.
+
+## Base de datos
+
+* MongoDB.
+* MongoDB Atlas.
+
+## Control de versiones
+
+* Git.
+* GitHub.
+
+## Futuras tecnologías
+
+Podrán evaluarse posteriormente:
+
+* React.
+* Next.js.
+* Servicios cloud.
+* Pasarelas de pago.
+* Servicios de almacenamiento.
+* Herramientas avanzadas de IA.
+
+No se incorporarán tecnologías solamente por ser populares.
+
+---
+
+# 18. API
 
 El backend utilizará una API REST.
 
-Ejemplos de rutas futuras:
+Ejemplos iniciales:
 
 ```text
 GET     /api/productos
 POST    /api/productos
+GET     /api/productos/:id
 PUT     /api/productos/:id
 DELETE  /api/productos/:id
 
+GET     /api/categorias
+POST    /api/categorias
+
 GET     /api/pedidos
 POST    /api/pedidos
+GET     /api/pedidos/:id
 PUT     /api/pedidos/:id
 
 GET     /api/clientes
-POST    /api/clientes
+GET     /api/clientes/:id
+
+GET     /api/ventas
+POST    /api/ventas
 
 POST    /api/auth/login
 POST    /api/auth/register
 ```
 
-Las rutas definitivas podrán cambiar durante el desarrollo.
+Las rutas podrán evolucionar durante el desarrollo.
 
 ---
 
-# 15. Autenticación y seguridad
+# 19. Autenticación y seguridad
 
-El sistema deberá tener autenticación.
+La seguridad será parte de la arquitectura desde las primeras versiones del backend.
 
-Los usuarios tendrán diferentes permisos según su rol.
+El sistema deberá contemplar:
 
-Roles:
+* Autenticación.
+* Autorización.
+* Roles.
+* Protección de rutas.
+* Contraseñas protegidas.
+* Validación de entradas.
+* Variables de entorno.
+* Protección de información sensible.
+* CORS correctamente configurado.
+* Manejo de errores.
+* Control de acceso al panel administrativo.
+
+Roles iniciales:
 
 ```text
 ADMIN
 EMPLEADO
-CLIENTE
 ```
 
-El sistema deberá evitar que un usuario normal acceda a funciones administrativas.
-
-La autenticación definitiva se implementará después de tener funcionando el sistema básico.
+El rol CLIENTE podrá incorporarse cuando se implemente el sistema de cuentas.
 
 ---
 
-# 16. Diseño
+# 20. Preparación para SaaS
 
-FRIZZA tendrá una identidad visual moderna.
+La primera versión funcionará principalmente para FRIZZA.
 
-Concepto:
+Sin embargo, la arquitectura deberá permitir posteriormente asociar la información a un negocio.
 
+Conceptualmente:
+
+```text
+NEGOCIO
+   │
+   ├── Productos
+   ├── Pedidos
+   ├── Clientes
+   ├── Ventas
+   ├── Inventario
+   └── Usuarios
+```
+
+En la futura versión SaaS:
+
+```text
+PLATAFORMA
+   │
+   ├── NEGOCIO A
+   │     ├── Productos
+   │     ├── Pedidos
+   │     └── Ventas
+   │
+   ├── NEGOCIO B
+   │     ├── Productos
+   │     ├── Pedidos
+   │     └── Ventas
+   │
+   └── NEGOCIO C
+         ├── Productos
+         ├── Pedidos
+         └── Ventas
+```
+
+Un negocio nunca deberá poder acceder a los datos de otro negocio.
+
+La implementación completa de multi-tenencia queda para una fase posterior.
+
+---
+
+# 21. Diseño
+
+FRIZZA debe tener una identidad visual:
+
+* Moderna.
+* Premium.
 * Refrescante.
 * Juvenil.
-* Moderno.
-* Premium.
 * Tropical.
 * Minimalista.
 
-La interfaz debe funcionar correctamente en:
+La interfaz debe transmitir la sensación de una marca comercial real.
 
-* Computadores.
-* Tablets.
-* Teléfonos.
+Debe priorizar:
 
-Se priorizará:
-
-* Buena navegación.
-* Botones claros.
-* Imágenes grandes.
-* Animaciones moderadas.
-* Buena legibilidad.
+* Excelente navegación.
 * Diseño responsive.
+* Jerarquía visual.
+* Botones claros.
+* Imágenes atractivas.
+* Animaciones moderadas.
+* Buen rendimiento.
+* Accesibilidad básica.
+* Experiencia móvil.
+
+La página pública y el panel administrativo tendrán diseños diferentes, pero deberán pertenecer al mismo producto.
 
 ---
 
-# 17. Estructura inicial del proyecto
+# 22. Estructura del proyecto
 
-La estructura actual es:
+La estructura actual:
 
 ```text
 FRIZZA/
 │
 ├── index.html
-│
 ├── css/
 │   └── estilos.css
-│
 ├── js/
 │   └── script.js
-│
-└── img/
+├── img/
+└── docs/
+    └── DOCUMENTO_MAESTRO.md
 ```
 
-A medida que el proyecto crezca podrá convertirse en:
+A medida que se implemente el backend:
 
 ```text
 FRIZZA/
 │
 ├── frontend/
-│
 ├── backend/
-│
-├── database/
-│
 ├── docs/
-│
 ├── img/
-│
 ├── .gitignore
 └── README.md
 ```
 
-La estructura definitiva dependerá de la arquitectura seleccionada.
+La estructura definitiva dependerá de la arquitectura implementada.
 
 ---
 
-# 18. Control de versiones
+# 23. Git y GitHub
 
-El proyecto utilizará Git y GitHub.
+El proyecto utiliza Git y GitHub.
 
 Repositorio:
 
-FRIZZA
-
-Las versiones importantes deberán guardarse mediante commits.
-
-Ejemplo:
-
 ```text
-v0.1 - Estructura inicial
-v0.2 - Diseño de página
-v0.3 - Catálogo
-v0.4 - Carrito
-v0.5 - Backend
-v0.6 - Base de datos
-v0.7 - Login
-v0.8 - Panel administrativo
-v0.9 - IA
-v1.0 - Primera versión completa
+nchica1185/FRIZZA
 ```
 
-No se deberán hacer cambios grandes sin guardar previamente una versión estable.
+La rama principal es:
+
+```text
+main
+```
+
+Cada avance importante deberá guardarse mediante commits.
+
+Ejemplos:
+
+```text
+chore: estructura inicial de FRIZZA
+feat: diseño de la página pública
+feat: catálogo de productos
+feat: carrito de compras
+feat: sistema de pedidos
+feat: backend inicial
+feat: conexión con MongoDB
+feat: panel administrativo
+feat: autenticación
+feat: FRIZZA AI
+```
+
+No se deberán realizar cambios grandes sin conservar una versión funcional anterior.
 
 ---
 
-# 19. Uso de diferentes IAs
+# 24. Trabajo con diferentes IAs
 
-FRIZZA podrá utilizar diferentes herramientas de IA.
+El proyecto podrá utilizar diferentes herramientas de IA.
 
 ## ChatGPT
 
-Responsabilidades principales:
+Responsabilidades:
 
-* Planificación.
-* Explicación del código.
 * Arquitectura.
+* Planificación.
+* Explicación.
+* Aprendizaje.
 * Resolución de problemas.
 * Revisión de decisiones.
-* Aprendizaje.
+* Organización del proyecto.
 
 ## Claude
 
-Responsabilidades posibles:
+Responsabilidades:
 
+* Análisis de arquitectura.
 * Revisión de grandes cantidades de código.
 * Refactorización.
-* Análisis de arquitectura.
-* Detección de errores.
-* Generación de código cuando sea necesario.
+* Detección de problemas.
+* Segunda opinión técnica.
 
 ## Cursor
 
-Responsabilidades posibles:
+Responsabilidades:
 
-* Edición directa del código.
+* Edición del código.
+* Implementación dentro del proyecto.
 * Navegación entre archivos.
 * Asistencia durante programación.
 * Detección de errores.
 
-## Regla principal
+## GitHub
 
-Todas las IAs deben trabajar utilizando este documento como referencia.
+Será la fuente de verdad del código.
 
-Ninguna IA debe cambiar la arquitectura principal del proyecto sin que la decisión sea revisada.
+Ninguna IA deberá asumir que una modificación realizada por otra IA es correcta automáticamente.
+
+Las decisiones importantes deberán revisarse antes de incorporarse al proyecto.
 
 ---
 
-# 20. Reglas de desarrollo
+# 25. Reglas de desarrollo
 
-1. No crear funcionalidades innecesarias.
-2. No utilizar tecnologías que todavía no sean necesarias.
-3. Explicar las partes importantes del código.
-4. Mantener el código organizado.
-5. Evitar duplicación innecesaria.
+1. Construir primero funcionalidades reales y útiles.
+2. No crear funcionalidades innecesarias.
+3. Mantener el código organizado.
+4. No modificar archivos sin revisarlos.
+5. No asumir contenido de archivos que no hayan sido revisados.
 6. Probar cada funcionalidad antes de continuar.
-7. Guardar versiones funcionales en Git.
-8. No modificar muchos sistemas al mismo tiempo.
-9. No asumir cómo funciona un archivo que no ha sido revisado.
-10. Priorizar seguridad en usuarios, contraseñas y datos.
-11. Mantener separadas las responsabilidades del frontend y backend.
-12. La IA debe utilizar datos reales del sistema cuando haga análisis.
-13. No introducir información ficticia en estadísticas que se presenten como reales.
-14. Mantener el proyecto escalable para futuras funciones.
+7. Mantener una versión funcional del proyecto.
+8. Utilizar Git para controlar cambios.
+9. Explicar las partes importantes del código.
+10. Priorizar seguridad.
+11. Validar datos en frontend y backend.
+12. Mantener separadas las responsabilidades.
+13. No exponer claves secretas.
+14. No inventar estadísticas.
+15. Utilizar datos reales para FRIZZA AI.
+16. Diseñar pensando en evolución futura.
+17. No incorporar tecnologías innecesarias.
+18. Evitar modificar demasiados módulos simultáneamente.
+19. Resolver errores antes de continuar con funcionalidades dependientes.
+20. Mantener la experiencia del cliente como una prioridad.
 
 ---
 
-# 21. Roadmap
+# 26. MVP comercial
 
-## FASE 1 — Prototipo
+Antes de construir funciones avanzadas, se deberá conseguir una primera versión completamente funcional.
+
+El MVP deberá incluir:
+
+### Cliente
+
+* Página pública.
+* Catálogo.
+* Categorías.
+* Carrito.
+* Checkout.
+* Creación de pedidos.
+* Estado del pedido.
+
+### Negocio
+
+* Login.
+* Dashboard.
+* Productos.
+* Categorías.
+* Pedidos.
+* Clientes.
+* Inventario.
+* Ventas.
+
+### Sistema
+
+* Backend.
+* API REST.
+* MongoDB.
+* Autenticación.
+* Validaciones.
+* Seguridad básica.
+
+Una vez estable el MVP:
+
+* Pagos online.
+* Notificaciones.
+* FRIZZA AI.
+* Reportes avanzados.
+* Multi-negocio.
+* Suscripciones.
+
+---
+
+# 27. Roadmap
+
+## FASE 1 — Diseño y experiencia pública
 
 * [x] Crear proyecto.
 * [x] Crear estructura inicial.
 * [x] Crear HTML inicial.
-* [ ] Diseño profesional.
+* [x] Crear Documento Maestro.
+* [x] Crear repositorio GitHub.
+* [ ] Diseño visual comercial.
 * [ ] Responsive.
-* [ ] Catálogo.
+* [ ] Catálogo visual.
+* [ ] Navegación completa.
+* [ ] Página pública terminada.
 
-## FASE 2 — Frontend funcional
+## FASE 2 — Tienda funcional
 
 * [ ] Productos dinámicos.
 * [ ] Carrito.
+* [ ] Cantidades.
 * [ ] Cálculo de totales.
-* [ ] Formulario de pedido.
+* [ ] Checkout.
 * [ ] Validaciones.
-* [ ] Mensajes al usuario.
+* [ ] Creación de pedidos.
+* [ ] Confirmación al cliente.
 
 ## FASE 3 — Backend
 
@@ -639,102 +992,135 @@ Ninguna IA debe cambiar la arquitectura principal del proyecto sin que la decisi
 * [ ] Express.
 * [ ] API REST.
 * [ ] Productos.
-* [ ] Pedidos.
-* [ ] Clientes.
-
-## FASE 4 — Base de datos
-
-* [ ] MongoDB.
-* [ ] Modelos.
-* [ ] Conexión.
-* [ ] CRUD.
-* [ ] Persistencia.
-
-## FASE 5 — Administración
-
-* [ ] Login.
-* [ ] Roles.
-* [ ] Dashboard.
-* [ ] Productos.
-* [ ] Inventario.
+* [ ] Categorías.
 * [ ] Pedidos.
 * [ ] Clientes.
 * [ ] Ventas.
 
-## FASE 6 — IA
+## FASE 4 — Base de datos
 
-* [ ] Conectar API de IA.
-* [ ] FRIZZA AI.
-* [ ] Análisis de ventas.
+* [ ] MongoDB.
+* [ ] MongoDB Atlas.
+* [ ] Modelos.
+* [ ] Conexión.
+* [ ] CRUD.
+* [ ] Persistencia.
+* [ ] Validaciones.
+
+## FASE 5 — Panel administrativo
+
+* [ ] Login.
+* [ ] Roles.
+* [ ] Dashboard.
+* [ ] Gestión de productos.
+* [ ] Gestión de categorías.
+* [ ] Gestión de pedidos.
+* [ ] Gestión de clientes.
 * [ ] Inventario.
+* [ ] Ventas.
+
+## FASE 6 — Seguridad y producción
+
+* [ ] Autenticación segura.
+* [ ] Autorización.
+* [ ] Variables de entorno.
+* [ ] Validación backend.
+* [ ] Manejo de errores.
+* [ ] Protección de rutas.
+* [ ] Pruebas.
+* [ ] Deploy.
+
+## FASE 7 — FRIZZA AI
+
+* [ ] Conectar servicio de IA.
+* [ ] Análisis de ventas.
+* [ ] Análisis de inventario.
 * [ ] Marketing.
 * [ ] Recomendaciones.
-
-## FASE 7 — Producción
-
-* [ ] Seguridad.
-* [ ] Variables de entorno.
-* [ ] Deploy.
-* [ ] Dominio.
-* [ ] Pruebas.
-* [ ] Optimización.
-* [ ] Documentación.
+* [ ] Control de costos.
+* [ ] Protección de datos.
 
 ## FASE 8 — Producto comercial
 
-* [ ] Definir modelo de negocio.
-* [ ] Crear demostración.
-* [ ] Crear documentación para clientes.
-* [ ] Preparar instalación/configuración.
+* [ ] Mejorar onboarding.
+* [ ] Preparar configuración de negocios.
+* [ ] Preparar arquitectura multi-negocio.
 * [ ] Crear sistema de planes.
-* [ ] Preparar soporte.
+* [ ] Suscripciones.
+* [ ] Documentación para clientes.
+* [ ] Demo comercial.
+* [ ] Soporte.
+* [ ] Preparar lanzamiento.
 
 ---
 
-# 22. Estado actual
+# 28. Estado actual
 
-FRIZZA se encuentra actualmente en:
+Actualmente FRIZZA se encuentra en:
 
-**FASE 1 — PROTOTIPO**
+**FASE 1 — Diseño y experiencia pública**
 
 Ya existe:
 
-* Estructura inicial del proyecto.
-* `index.html`.
-* `css/estilos.css`.
-* `js/script.js`.
-* Carpeta `img`.
+* Proyecto local.
+* HTML inicial.
+* CSS.
+* JavaScript.
+* Carpeta de imágenes.
+* Documento Maestro.
+* Repositorio GitHub.
+* Primer commit.
+* Rama `main`.
+* Repositorio remoto configurado.
 
-El siguiente objetivo técnico es construir el diseño visual profesional del frontend.
+El siguiente objetivo es construir la **experiencia pública comercial de FRIZZA**.
+
+La página debe empezar a verse como un producto que podría mostrarse a un cliente real.
 
 ---
 
-# 23. Principio del proyecto
+# 29. Principio del proyecto
 
-FRIZZA no debe convertirse únicamente en un proyecto para “hacer que funcione”.
+FRIZZA no será desarrollado únicamente para cumplir una actividad académica.
 
-El objetivo es aprender a construir software de principio a fin:
+El objetivo es aprender a construir un producto de software completo y profesional:
 
 ```text
 IDEA
- ↓
+  ↓
 REQUISITOS
- ↓
+  ↓
+ARQUITECTURA
+  ↓
 DISEÑO
- ↓
-PROGRAMACIÓN
- ↓
+  ↓
+FRONTEND
+  ↓
+BACKEND
+  ↓
 BASE DE DATOS
- ↓
-API
- ↓
+  ↓
+AUTENTICACIÓN
+  ↓
+PEDIDOS Y VENTAS
+  ↓
+ADMINISTRACIÓN
+  ↓
 IA
- ↓
+  ↓
 PRUEBAS
- ↓
+  ↓
 DEPLOY
- ↓
-PRODUCTO
+  ↓
+PRODUCTO COMERCIAL
+  ↓
+SAAS
 ```
 
-FRIZZA será utilizado como proyecto de aprendizaje para posteriormente desarrollar soluciones de software para empresas reales.
+FRIZZA será primero el negocio de demostración.
+
+El objetivo final será tener un software que pueda evolucionar hasta convertirse en una plataforma que diferentes negocios puedan utilizar.
+
+**Principio fundamental:**
+
+> Construir como producto comercial desde el principio, pero evolucionar hacia SaaS paso a paso.
