@@ -112,7 +112,7 @@
 </button>
 
 <div class="cart-overlay" id="cartOverlay"></div>
-<aside class="cart-panel" id="cartPanel" aria-label="Carrito de compras">
+<aside class="cart-panel" id="cartPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Carrito de compras" tabindex="-1">
   <div class="cart-header">
     <div>
       <p>Tu pedido</p>
@@ -132,24 +132,29 @@
 
     <button type="button" class="btn ghost btn-block" id="emptyCart" style="display:none;">Vaciar carrito</button>
 
+    <div class="demo-warning">Modo demostración: el pedido no se envía al negocio</div>
+
     <form class="checkout-form" id="checkoutForm" novalidate>
       <div class="form-group">
         <label for="nombreCliente">Nombre completo</label>
-        <input id="nombreCliente" name="nombreCliente" type="text" placeholder="Tu nombre" autocomplete="name" aria-invalid="false">
+        <input id="nombreCliente" name="nombreCliente" type="text" placeholder="Tu nombre" autocomplete="name" aria-invalid="false" aria-describedby="error-nombre">
+        <div id="error-nombre" class="form-error" role="alert" hidden></div>
       </div>
 
       <div class="form-group">
         <label for="telefonoCliente">Teléfono</label>
-        <input id="telefonoCliente" name="telefonoCliente" type="tel" placeholder="300 123 4567" autocomplete="tel" aria-invalid="false">
+        <input id="telefonoCliente" name="telefonoCliente" type="tel" placeholder="300 123 4567" autocomplete="tel" aria-invalid="false" aria-describedby="error-telefono">
+        <div id="error-telefono" class="form-error" role="alert" hidden></div>
       </div>
 
-      <div class="form-group delivery-field" id="direccionField">
+      <div class="form-group delivery-field" id="direccionField" hidden>
         <label for="direccionCliente">Dirección</label>
-        <input id="direccionCliente" name="direccionCliente" type="text" placeholder="Cra 10 #20-30" autocomplete="street-address" aria-invalid="false">
+        <input id="direccionCliente" name="direccionCliente" type="text" placeholder="Cra 10 #20-30" autocomplete="street-address" aria-invalid="false" aria-describedby="error-direccion">
+        <div id="error-direccion" class="form-error" role="alert" hidden></div>
       </div>
 
-      <div class="form-group">
-        <label>Método de entrega</label>
+      <fieldset class="form-group" data-name="metodoEntrega" aria-describedby="error-metodoEntrega">
+        <legend>Método de entrega</legend>
         <div class="radio-group">
           <label class="option">
             <input type="radio" name="metodoEntrega" value="DOMICILIO" checked>
@@ -160,27 +165,33 @@
             <span>Recoger en local</span>
           </label>
         </div>
-      </div>
+        <div id="error-metodoEntrega" class="form-error" role="alert" hidden></div>
+      </fieldset>
 
-      <div class="form-group">
-        <label>Método de pago</label>
+      <fieldset class="form-group" data-name="metodoPago" aria-describedby="error-metodoPago">
+        <legend>Método de pago</legend>
         <div class="radio-group">
           <label class="option">
             <input type="radio" name="metodoPago" value="EFECTIVO" checked>
-            <span>Efectivo</span>
+            <span>Efectivo al recibir o en el local</span>
           </label>
           <label class="option">
-            <input type="radio" name="metodoPago" value="TRANSFERENCIA">
-            <span>Transferencia</span>
-          </label>
-          <label class="option">
-            <input type="radio" name="metodoPago" value="TARJETA">
-            <span>Tarjeta</span>
+            <input type="radio" name="metodoPago" value="DATAFONO">
+            <span>Datáfono al recibir o en el local</span>
           </label>
         </div>
+        <div id="error-metodoPago" class="form-error" role="alert" hidden></div>
+      </fieldset>
+
+      <div class="form-group" id="mayorEdadGroup" hidden>
+        <label class="checkbox-line" for="mayorEdad">
+          <input id="mayorEdad" name="mayorEdad" type="checkbox">
+          <span>Confirmo que soy mayor de 18 años</span>
+        </label>
+        <div id="error-mayorEdad" class="form-error" role="alert" hidden></div>
       </div>
 
-      <button class="btn btn-block" id="checkoutSubmit" type="submit" disabled>Confirmar pedido</button>
+      <button class="btn btn-block" id="checkoutSubmit" type="submit" disabled>Simular pedido</button>
     </form>
 
     <div class="order-confirmation" id="orderConfirmation" aria-live="polite">

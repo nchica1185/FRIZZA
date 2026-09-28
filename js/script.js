@@ -12,12 +12,13 @@ const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&
 const DOMICILIO_FIJO = 5000;
 
 const carrito = [];
-const estadoPedido = {
+const seleccionCheckout = {
   metodoEntrega: 'DOMICILIO',
   metodoPago: 'EFECTIVO'
 };
 const toast = $('toast');
 let tToast;
+let productosCatalogo = [];
 
 function mostrarToast(mensaje, esError = false) {
   if (!toast) return;
@@ -29,6 +30,68 @@ function mostrarToast(mensaje, esError = false) {
     toast.classList.remove('on');
     toast.classList.remove('error');
   }, 3000);
+}
+
+function setFieldError(input, message) {
+  if (!input) return;
+  const errorId = input.getAttribute('aria-describedby');
+  const errorNode = errorId ? document.getElementById(errorId) : null;
+
+  input.setAttribute('aria-invalid', message ? 'true' : 'false');
+  if (errorNode) {
+    errorNode.textContent = message || '';
+    errorNode.hidden = !message;
+  }
+}
+
+function setGroupError(fieldset, message) {
+  if (!fieldset) return;
+  const errorId = fieldset.getAttribute('aria-describedby');
+  const errorNode = errorId ? document.getElementById(errorId) : null;
+
+  fieldset.setAttribute('aria-invalid', message ? 'true' : 'false');
+  if (errorNode) {
+    errorNode.textContent = message || '';
+    errorNode.hidden = !message;
+  }
+}
+
+function limpiarErroresFormulario() {
+  const form = $('checkoutForm');
+  if (!form) return;
+
+  const campos = [
+    form.nombreCliente,
+    form.telefonoCliente,
+    form.direccionCliente,
+    form.querySelector('fieldset[data-name="metodoEntrega"]'),
+    form.querySelector('fieldset[data-name="metodoPago"]'),
+    form.mayorEdad
+  ];
+
+  campos.forEach((campo) => {
+    if (campo && campo.matches && campo.matches('fieldset')) {
+      setGroupError(campo, '');
+    } else if (campo) {
+      setFieldError(campo, '');
+    }
+  });
+}
+
+function actualizarEstadoCheckboxMayor() {
+  const mayorEdadGroup = $('mayorEdadGroup');
+  const mayorEdadInput = $('mayorEdad');
+  const requiereEdad = carrito.some((item) => String(item.categoria) === 'cocteles');
+
+  if (!mayorEdadGroup || !mayorEdadInput) return;
+
+  mayorEdadGroup.hidden = !requiereEdad;
+  mayorEdadInput.required = requiereEdad;
+
+  if (!requiereEdad) {
+    mayorEdadInput.checked = false;
+    setFieldError(mayorEdadInput, '');
+  }
 }
 
 function copa(sabor) {
@@ -44,25 +107,35 @@ function copa(sabor) {
 function abrirCarrito() {
   const panel = $('cartPanel');
   const overlay = $('cartOverlay');
-  if (!panel || !overlay) return;
+  const closeButton = $('cartClose');
+  if (!panel || !overlay || !closeButton) return;
+
   panel.classList.add('open');
+  panel.setAttribute('aria-hidden', 'false');
+  panel.inert = false;
   overlay.classList.add('show');
+  closeButton.focus();
 }
 
 function cerrarCarrito() {
   const panel = $('cartPanel');
   const overlay = $('cartOverlay');
+  const toggle = $('cartToggle');
   if (!panel || !overlay) return;
+
   panel.classList.remove('open');
+  panel.setAttribute('aria-hidden', 'true');
+  panel.inert = true;
   overlay.classList.remove('show');
+  if (toggle) toggle.focus();
 }
 
 function subtotalCarrito() {
-  return carrito.reduce((suma, item) => suma + (item.precio * item.cantidad), 0);
+  return carrito.reduce((suma, item) => suma + (Number(item.precio) * Number(item.cantidad)), 0);
 }
 
 function domicilioCarrito() {
-  return carrito.length > 0 && estadoPedido.metodoEntrega === 'DOMICILIO' ? DOMICILIO_FIJO : 0;
+  return carrito.length > 0 && seleccionCheckout.metodoEntrega === 'DOMICILIO' ? DOMICILIO_FIJO : 0;
 }
 
 function totalCarrito() {
@@ -70,13 +143,13 @@ function totalCarrito() {
 }
 
 function itemExiste(productId) {
-  return carrito.find((item) => Number(item.id) === Number(productId));
+  return carrito.find((item) => String(item.id) === String(productId));
 }
 
 function actualizarCamposEntrega() {
   const direccionField = $('direccionField');
   const direccionInput = $('direccionCliente');
-  const esDomicilio = estadoPedido.metodoEntrega === 'DOMICILIO';
+  const esDomicilio = seleccionCheckout.metodoEntrega === 'DOMICILIO';
 
   if (direccionField) {
     direccionField.hidden = !esDomicilio;
@@ -85,7 +158,14 @@ function actualizarCamposEntrega() {
     direccionInput.required = esDomicilio;
     direccionInput.setAttribute('aria-invalid', 'false');
     direccionInput.disabled = !esDomicilio;
+    if (!esDomicilio) {
+      setFieldError(direccionInput, '');
+    }
   }
+}
+
+function getSubmitText() {
+  return MODO_DEMO ? 'Simular pedido' : 'Confirmar pedido';
 }
 
 function renderCarrito() {
@@ -110,49 +190,51 @@ function renderCarrito() {
         <div>
           <h4>${esc(item.nombre)}</h4>
           <div class="cart-item-meta">
-            <span>${precio.format(item.precio)}</span>
-            <span>x${item.cantidad}</span>
+            <span>${precio.format(Number(item.precio))}</span>
+            <span>x${Number(item.cantidad)}</span>
           </div>
           <div class="cart-item-actions">
             <div class="qty-controls">
-              <button type="button" data-cart-action="decrease" data-id="${item.id}" aria-label="Disminuir cantidad">−</button>
-              <span class="qty-value">${item.cantidad}</span>
-              <button type="button" data-cart-action="increase" data-id="${item.id}" aria-label="Aumentar cantidad">+</button>
+              <button type="button" data-cart-action="decrease" data-id="${esc(String(item.id))}" aria-label="Disminuir cantidad">−</button>
+              <span class="qty-value">${Number(item.cantidad)}</span>
+              <button type="button" data-cart-action="increase" data-id="${esc(String(item.id))}" aria-label="Aumentar cantidad">+</button>
             </div>
-            <button type="button" class="delete-btn" data-cart-action="remove" data-id="${item.id}">Eliminar</button>
+            <button type="button" class="delete-btn" data-cart-action="remove" data-id="${esc(String(item.id))}">Eliminar</button>
           </div>
         </div>
-        <strong>${precio.format(item.precio * item.cantidad)}</strong>
+        <strong>${precio.format(Number(item.precio) * Number(item.cantidad))}</strong>
       </div>
     `).join('');
   }
 
-  const cantidadTotal = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+  const cantidadTotal = carrito.reduce((sum, item) => sum + Number(item.cantidad), 0);
   badge.textContent = cantidadTotal;
   toggle.classList.toggle('has-items', cantidadTotal > 0);
   checkoutButton.disabled = carrito.length === 0;
   emptyCartButton.disabled = carrito.length === 0;
+  checkoutButton.textContent = getSubmitText();
 
   subtotalEl.textContent = precio.format(subtotalCarrito());
   envioEl.textContent = precio.format(domicilioCarrito());
   totalEl.textContent = precio.format(totalCarrito());
+  actualizarEstadoCheckboxMayor();
 }
 
 function agregarAlCarrito(productId) {
-  const producto = PRODUCTOS.find((item) => Number(item.id) === Number(productId));
+  const producto = productosCatalogo.find((item) => String(item.id) === String(productId));
   if (!producto) return;
-  if (producto.stock <= 0) {
+  if (Number(producto.stock) <= 0) {
     mostrarToast('Este producto está agotado en este momento.', true);
     return;
   }
 
   const itemActual = itemExiste(productId);
   if (itemActual) {
-    if (itemActual.cantidad >= producto.stock) {
+    if (Number(itemActual.cantidad) >= Number(producto.stock)) {
       mostrarToast(`Máximo disponible: ${producto.stock} unidades.`, true);
       return;
     }
-    itemActual.cantidad += 1;
+    itemActual.cantidad = Number(itemActual.cantidad) + 1;
   } else {
     carrito.push({
       id: producto.id,
@@ -174,10 +256,10 @@ function disminuirCantidad(productId) {
   const item = itemExiste(productId);
   if (!item) return;
 
-  if (item.cantidad > 1) {
-    item.cantidad -= 1;
+  if (Number(item.cantidad) > 1) {
+    item.cantidad = Number(item.cantidad) - 1;
   } else {
-    const index = carrito.findIndex((entry) => Number(entry.id) === Number(productId));
+    const index = carrito.findIndex((entry) => String(entry.id) === String(productId));
     if (index >= 0) carrito.splice(index, 1);
   }
 
@@ -185,21 +267,21 @@ function disminuirCantidad(productId) {
 }
 
 function aumentarCantidad(productId) {
-  const producto = PRODUCTOS.find((item) => Number(item.id) === Number(productId));
+  const producto = productosCatalogo.find((item) => String(item.id) === String(productId));
   const item = itemExiste(productId);
   if (!producto || !item) return;
 
-  if (item.cantidad >= producto.stock) {
+  if (Number(item.cantidad) >= Number(producto.stock)) {
     mostrarToast(`Máximo disponible: ${producto.stock} unidades.`, true);
     return;
   }
 
-  item.cantidad += 1;
+  item.cantidad = Number(item.cantidad) + 1;
   renderCarrito();
 }
 
 function eliminarDelCarrito(productId) {
-  const index = carrito.findIndex((item) => Number(item.id) === Number(productId));
+  const index = carrito.findIndex((item) => String(item.id) === String(productId));
   if (index >= 0) {
     carrito.splice(index, 1);
     renderCarrito();
@@ -220,15 +302,18 @@ function validarFormulario() {
   const direccion = form.direccionCliente.value.trim();
   const radioEntrega = form.querySelector('input[name="metodoEntrega"]:checked');
   const radioPago = form.querySelector('input[name="metodoPago"]:checked');
+  const mayorEdad = form.mayorEdad;
+  const tieneCocteles = carrito.some((item) => String(item.categoria) === 'cocteles');
 
   const errores = [];
 
   if (nombre.length < 2) {
-    errores.push({ campo: form.nombreCliente, mensaje: 'Escribe tu nombre completo para continuar.' });
+    errores.push({ campo: form.nombreCliente, mensaje: 'Escribe tu nombre completo.' });
   }
 
-  if (!/^[0-9+\s()-]{7,15}$/.test(telefono)) {
-    errores.push({ campo: form.telefonoCliente, mensaje: 'Ingresa un teléfono válido.' });
+  const telefonoNormalizado = telefono.replace(/[+\s().-]/g, '');
+  if (!/^(?:57)?3\d{9}$/.test(telefonoNormalizado)) {
+    errores.push({ campo: form.telefonoCliente, mensaje: 'Teléfono móvil colombiano inválido. Usa 10 dígitos y empieza en 3.' });
   }
 
   if (radioEntrega && radioEntrega.value === 'DOMICILIO' && direccion.length < 6) {
@@ -236,22 +321,38 @@ function validarFormulario() {
   }
 
   if (!radioPago) {
-    errores.push({ campo: null, mensaje: 'Selecciona un método de pago.' });
+    errores.push({ campo: form.querySelector('fieldset[data-name="metodoPago"]'), mensaje: 'Selecciona un método de pago.' });
   }
 
-  form.querySelectorAll('input[aria-invalid="true"]').forEach((campo) => campo.setAttribute('aria-invalid', 'false'));
+  if (tieneCocteles && (!mayorEdad || !mayorEdad.checked)) {
+    errores.push({ campo: mayorEdad, mensaje: 'Debes confirmar que eres mayor de 18 años.' });
+  }
+
+  limpiarErroresFormulario();
 
   if (errores.length) {
-    const primero = errores[0];
-    if (primero.campo) {
-      primero.campo.setAttribute('aria-invalid', 'true');
-      primero.campo.focus();
-    }
-    mostrarToast(primero.mensaje, true);
+    errores.forEach(({ campo, mensaje }) => {
+      if (!campo) return;
+      if (campo.matches && campo.matches('fieldset')) {
+        setGroupError(campo, mensaje);
+      } else {
+        setFieldError(campo, mensaje);
+      }
+    });
+
+    const primerInvalido = errores[0].campo;
+    if (primerInvalido && primerInvalido.focus) primerInvalido.focus();
+    mostrarToast(errores[0].mensaje, true);
     return false;
   }
 
-  return { nombre, telefono, direccion, metodoEntrega: radioEntrega.value, metodoPago: radioPago.value };
+  return {
+    nombre,
+    telefono,
+    direccion,
+    metodoEntrega: radioEntrega ? radioEntrega.value : seleccionCheckout.metodoEntrega,
+    metodoPago: radioPago ? radioPago.value : seleccionCheckout.metodoPago
+  };
 }
 
 function obtenerPayloadPedido() {
@@ -265,43 +366,55 @@ function obtenerPayloadPedido() {
       direccion: validacion.metodoEntrega === 'DOMICILIO' ? validacion.direccion : null
     },
     items: carrito.map((item) => ({
-      id: item.id,
-      nombre: item.nombre,
-      cantidad: item.cantidad,
-      precio: item.precio
+      id: String(item.id),
+      cantidad: Number(item.cantidad)
     })),
     metodoEntrega: validacion.metodoEntrega,
-    metodoPago: validacion.metodoPago,
-    subtotal: subtotalCarrito(),
-    domicilio: domicilioCarrito(),
-    total: totalCarrito()
+    metodoPago: validacion.metodoPago
   };
 }
 
 async function enviarPedido(payload) {
-  if (!payload) return;
+  const form = $('checkoutForm');
+  const checkoutButton = $('checkoutSubmit');
+  if (!payload || !form || !checkoutButton) return;
+
+  checkoutButton.disabled = true;
+  checkoutButton.textContent = 'Enviando…';
+
   try {
     const respuesta = await crearPedido(payload);
     const confirmacion = $('orderConfirmation');
     const texto = $('confirmationText');
     if (confirmacion && texto) {
       confirmacion.classList.add('visible');
-      texto.textContent = `${respuesta.mensaje} Pedido ${respuesta.pedido?.id || 'demo'} en estado ${respuesta.pedido?.estadoPedido || 'PENDIENTE'}.`;
+      confirmacion.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (MODO_DEMO) {
+        texto.textContent = 'Simulación: tu pedido NO fue enviado. Este flujo es solo demostrativo y no llegó al negocio.';
+      } else {
+        texto.textContent = respuesta.mensaje || 'Pedido enviado correctamente.';
+      }
     }
-    mostrarToast(respuesta.mensaje || 'Pedido creado en modo demostración.', false);
+    mostrarToast(respuesta.mensaje || 'Pedido en modo demostración.', false);
     carrito.length = 0;
     renderCarrito();
-    const form = $('checkoutForm');
-    if (form) form.reset();
-    estadoPedido.metodoEntrega = 'DOMICILIO';
-    estadoPedido.metodoPago = 'EFECTIVO';
+    form.reset();
+    seleccionCheckout.metodoEntrega = 'DOMICILIO';
+    seleccionCheckout.metodoPago = 'EFECTIVO';
     const entregaInput = document.querySelector('input[name="metodoEntrega"][value="DOMICILIO"]');
     const pagoInput = document.querySelector('input[name="metodoPago"][value="EFECTIVO"]');
     if (entregaInput) entregaInput.checked = true;
     if (pagoInput) pagoInput.checked = true;
     actualizarCamposEntrega();
+    limpiarErroresFormulario();
   } catch (error) {
     mostrarToast(error?.message || 'No pudimos completar el pedido en este momento.', true);
+    if (confirmacion) {
+      confirmacion.classList.remove('visible');
+    }
+  } finally {
+    checkoutButton.disabled = carrito.length === 0;
+    checkoutButton.textContent = getSubmitText();
   }
 }
 
@@ -348,7 +461,7 @@ const filtros = $('filtros');
 let categoriaActiva = 'todos';
 
 function tarjeta(p) {
-  const agotado = p.stock <= 0;
+  const agotado = Number(p.stock) <= 0;
   const [a] = SABORES[p.sabor] || SABORES.fresa;
   return `<article class="card" style="--a:${a}">
     <div class="card-img">${copa(p.sabor)}</div>
@@ -357,16 +470,16 @@ function tarjeta(p) {
       <h3>${esc(p.nombre)}</h3>
       <p>${esc(p.descripcion)}</p>
       <div class="card-foot">
-        <strong>${precio.format(p.precio)}</strong>
-        <button class="btn sm" type="button" data-id="${p.id}" ${agotado ? 'disabled' : ''}>${agotado ? 'Agotado' : 'Agregar'}</button>
+        <strong>${precio.format(Number(p.precio))}</strong>
+        <button class="btn sm" type="button" data-id="${esc(String(p.id))}" ${agotado ? 'disabled' : ''}>${agotado ? 'Agotado' : 'Agregar'}</button>
       </div>
     </div>
   </article>`;
 }
 
 function pintarCatalogo() {
-  if (!grid || !filtros) return;
-  const lista = PRODUCTOS.filter((p) => p.estado === 'ACTIVO' && (categoriaActiva === 'todos' || p.categoria === categoriaActiva));
+  if (!grid || !filtros || !productosCatalogo.length) return;
+  const lista = productosCatalogo.filter((p) => p.estado === 'ACTIVO' && (categoriaActiva === 'todos' || p.categoria === categoriaActiva));
   grid.innerHTML = lista.length ? lista.map(tarjeta).join('') : '<p class="vacio">Aún no hay productos en esta categoría. Prueba con otra.</p>';
   filtros.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', c.dataset.cat === categoriaActiva));
 }
@@ -398,9 +511,20 @@ grid?.addEventListener('click', (e) => {
 
 $('cartToggle')?.addEventListener('click', () => {
   const panel = $('cartPanel');
-  if (!panel) return;
-  panel.classList.toggle('open');
-  $('cartOverlay')?.classList.toggle('show');
+  const overlay = $('cartOverlay');
+  if (!panel || !overlay) return;
+
+  const isOpen = panel.classList.contains('open');
+  if (isOpen) {
+    cerrarCarrito();
+    return;
+  }
+
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden', 'false');
+  panel.inert = false;
+  overlay.classList.add('show');
+  $('cartClose')?.focus();
 });
 
 $('emptyCart')?.addEventListener('click', () => {
@@ -422,9 +546,16 @@ document.addEventListener('click', (e) => {
   if (action === 'remove') eliminarDelCarrito(productId);
 });
 
+document.addEventListener('keydown', (event) => {
+  const panel = $('cartPanel');
+  if (event.key === 'Escape' && panel && panel.classList.contains('open')) {
+    cerrarCarrito();
+  }
+});
+
 document.querySelectorAll('input[name="metodoEntrega"]').forEach((input) => {
   input.addEventListener('change', (event) => {
-    estadoPedido.metodoEntrega = event.target.value;
+    seleccionCheckout.metodoEntrega = event.target.value;
     actualizarCamposEntrega();
     renderCarrito();
   });
@@ -432,9 +563,48 @@ document.querySelectorAll('input[name="metodoEntrega"]').forEach((input) => {
 
 document.querySelectorAll('input[name="metodoPago"]').forEach((input) => {
   input.addEventListener('change', (event) => {
-    estadoPedido.metodoPago = event.target.value;
+    seleccionCheckout.metodoPago = event.target.value;
   });
 });
+
+const nombreInput = $('nombreCliente');
+const telefonoInput = $('telefonoCliente');
+const direccionInput = $('direccionCliente');
+const mayorEdadInput = $('mayorEdad');
+const entregaFieldset = document.querySelector('fieldset[data-name="metodoEntrega"]');
+const pagoFieldset = document.querySelector('fieldset[data-name="metodoPago"]');
+
+if (nombreInput) {
+  nombreInput.addEventListener('input', () => {
+    if (nombreInput.value.trim().length >= 2) setFieldError(nombreInput, '');
+  });
+}
+if (telefonoInput) {
+  telefonoInput.addEventListener('input', () => {
+    const telefonoNormalizado = telefonoInput.value.replace(/[+\s().-]/g, '');
+    if (/^(?:57)?3\d{9}$/.test(telefonoNormalizado)) setFieldError(telefonoInput, '');
+  });
+}
+if (direccionInput) {
+  direccionInput.addEventListener('input', () => {
+    if (direccionInput.value.trim().length >= 6) setFieldError(direccionInput, '');
+  });
+}
+if (mayorEdadInput) {
+  mayorEdadInput.addEventListener('change', () => {
+    if (mayorEdadInput.checked) setFieldError(mayorEdadInput, '');
+  });
+}
+if (entregaFieldset) {
+  entregaFieldset.addEventListener('change', () => {
+    setGroupError(entregaFieldset, '');
+  });
+}
+if (pagoFieldset) {
+  pagoFieldset.addEventListener('change', () => {
+    setGroupError(pagoFieldset, '');
+  });
+}
 
 $('checkoutForm')?.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -449,7 +619,16 @@ $('checkoutForm')?.addEventListener('submit', async (event) => {
   await enviarPedido(payload);
 });
 
+async function cargarCatalogo() {
+  productosCatalogo = await obtenerProductos();
+  pintarCatalogo();
+  renderCarrito();
+}
+
 $('anio').textContent = new Date().getFullYear();
 actualizarCamposEntrega();
 renderCarrito();
-pintarCatalogo();
+actualizarEstadoCheckboxMayor();
+if (typeof obtenerProductos === 'function') {
+  cargarCatalogo();
+}
