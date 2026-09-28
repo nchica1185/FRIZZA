@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FRIZZA · Sabor que se siente frío</title>
+<meta name="description" content="Granizados, cócteles y bebidas refrescantes en Armenia, Quindío.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<a class="skip" href="#menu">Ir al menú</a>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#inicio"><i class="gema"></i>FRIZZA</a>
+    <button class="burger" id="burger" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="links">☰</button>
+    <ul class="links" id="links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#categorias">Categorías</a></li>
+      <li><a href="#menu">Menú</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li><a class="btn sm" href="#menu">Pedir ahora</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="inicio" data-sabor="fresa">
+    <div class="wrap hero-in">
+      <div>
+        <h1>Sabor que se siente frío.</h1>
+        <p>Granizados, cócteles y bebidas preparados al momento en Armenia, Quindío.</p>
+        <div class="cta">
+          <a class="btn" href="#menu">Ver el menú</a>
+          <a class="btn ghost" href="#contacto">Cómo pedir</a>
+        </div>
+        <div class="sabores" role="group" aria-label="Elige un sabor">
+          <span>Elige tu sabor:</span>
+          <button class="chip" data-sabor="fresa" aria-pressed="true">Fresa</button>
+          <button class="chip" data-sabor="mango" aria-pressed="false">Mango</button>
+          <button class="chip" data-sabor="azul" aria-pressed="false">Frizza Blue</button>
+        </div>
+      </div>
+      <div class="hero-cup" id="heroCopa"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="categorias">
+    <div class="wrap">
+      <h2>¿Qué se te antoja hoy?</h2>
+      <div class="cats">
+        <a class="cat" href="#menu" data-cat="granizados" style="--t:#FF4F79"><span>🍧</span>Granizados</a>
+        <a class="cat" href="#menu" data-cat="cocteles" style="--t:#12A7E0"><span>🍹</span>Cócteles</a>
+        <a class="cat" href="#menu" data-cat="bebidas" style="--t:#2CCB9A"><span>🥤</span>Bebidas</a>
+        <a class="cat" href="#menu" data-cat="combos" style="--t:#FFB627"><span>🎁</span>Combos</a>
+        <a class="cat" href="#menu" data-cat="toppings" style="--t:#FF4F79"><span>🍓</span>Toppings</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt" id="menu">
+    <div class="wrap">
+      <h2>Nuestro menú</h2>
+      <div class="filtros" id="filtros" role="group" aria-label="Filtrar por categoría"></div>
+      <div class="grid" id="grid" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="nosotros">
+    <div class="wrap two">
+      <div>
+        <h2>Frío de verdad, sabor de verdad.</h2>
+        <p>FRIZZA nació en Armenia, Quindío, con una idea simple: que un granizado sepa a la fruta que promete y llegue bien frío a tu mesa o a tu puerta.</p>
+        <p>Preparamos cada bebida al momento, con ingredientes frescos y recetas que probamos hasta acertar.</p>
+      </div>
+      <ul class="puntos">
+        <li><strong>Hecho al momento</strong>Nada de bebidas guardadas: se prepara cuando pides.</li>
+        <li><strong>Domicilio o en el local</strong>Elige si te lo llevamos o pasas por él.</li>
+        <li><strong>Para todos los planes</strong>Combos para compartir y cócteles para celebrar.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec oscuro" id="contacto">
+    <div class="wrap">
+      <h2>Hablemos</h2>
+      <div class="contacto">
+        <div><strong>Ubicación</strong>Armenia, Quindío, Colombia</div>
+        <div><strong>Teléfono</strong><a href="tel:+570000000000">+57 000 000 0000</a></div>
+        <div><strong>Instagram</strong><a href="#contacto">@frizza</a></div>
+        <div><strong>Horario</strong>Todos los días, por definir</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div><a class="logo" href="#inicio"><i class="gema"></i>FRIZZA</a><p>Sabor que se siente frío.</p></div>
+    <p class="aviso">Los cócteles contienen alcohol. Venta solo a mayores de 18 años.</p>
+    <p>© <span id="anio"></span> FRIZZA</p>
+  </div>
+</footer>
+
+<button class="cart-toggle" id="cartToggle" type="button" aria-label="Abrir carrito">
+  <span>Carrito</span>
+  <span class="cart-badge" id="cartCountBadge">0</span>
+</button>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-panel" id="cartPanel" aria-label="Carrito de compras">
+  <div class="cart-header">
+    <div>
+      <p>Tu pedido</p>
+      <h3>Carrito</h3>
+    </div>
+    <button class="icon-button" id="cartClose" type="button" aria-label="Cerrar carrito">×</button>
+  </div>
+
+  <div class="cart-body">
+    <div class="cart-items" id="cartItems"></div>
+
+    <div class="cart-summary">
+      <div class="summary-line"><span>Subtotal</span><strong id="cartSubtotal">$0</strong></div>
+      <div class="summary-line"><span>Domicilio</span><strong id="cartEnvio">$0</strong></div>
+      <div class="summary-line total"><span>Total</span><strong id="cartTotal">$0</strong></div>
+    </div>
+
+    <button type="button" class="btn ghost btn-block" id="emptyCart" style="display:none;">Vaciar carrito</button>
+
+    <form class="checkout-form" id="checkoutForm" novalidate>
+      <div class="form-group">
+        <label for="nombreCliente">Nombre completo</label>
+        <input id="nombreCliente" name="nombreCliente" type="text" placeholder="Tu nombre" autocomplete="name" aria-invalid="false">
+      </div>
+
+      <div class="form-group">
+        <label for="telefonoCliente">Teléfono</label>
+        <input id="telefonoCliente" name="telefonoCliente" type="tel" placeholder="300 123 4567" autocomplete="tel" aria-invalid="false">
+      </div>
+
+      <div class="form-group delivery-field" id="direccionField">
+        <label for="direccionCliente">Dirección</label>
+        <input id="direccionCliente" name="direccionCliente" type="text" placeholder="Cra 10 #20-30" autocomplete="street-address" aria-invalid="false">
+      </div>
+
+      <div class="form-group">
+        <label>Método de entrega</label>
+        <div class="radio-group">
+          <label class="option">
+            <input type="radio" name="metodoEntrega" value="DOMICILIO" checked>
+            <span>Domicilio</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="metodoEntrega" value="RECOGER_EN_LOCAL">
+            <span>Recoger en local</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Método de pago</label>
+        <div class="radio-group">
+          <label class="option">
+            <input type="radio" name="metodoPago" value="EFECTIVO" checked>
+            <span>Efectivo</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="metodoPago" value="TRANSFERENCIA">
+            <span>Transferencia</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="metodoPago" value="TARJETA">
+            <span>Tarjeta</span>
+          </label>
+        </div>
+      </div>
+
+      <button class="btn btn-block" id="checkoutSubmit" type="submit" disabled>Confirmar pedido</button>
+    </form>
+
+    <div class="order-confirmation" id="orderConfirmation" aria-live="polite">
+      <h4>Pedido en modo demostración</h4>
+      <p id="confirmationText">El pedido se registrará aquí como demostración mientras aún no existe la API real.</p>
+    </div>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status"></div>
+<script src="js/productos.js"></script>
+<script src="js/api.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
